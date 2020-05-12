@@ -1,3 +1,6 @@
+def sorted_array_is_exhausted(sorted_right, sorted_right_index)
+  sorted_right_index >= sorted_right.length
+end
 
 def merge_sort(unsorted)
   # puts "merge sort with unsorted array"
@@ -28,8 +31,8 @@ def merge_sort(unsorted)
     # puts "current sorted"
     # puts sorted.inspect
     if sorted_left_index < sorted_left.length &&
-      (sorted_right_index >= sorted_right.length ||
-        sorted_left[sorted_left_index] < sorted_right[sorted_right_index])
+       (sorted_array_is_exhausted(sorted_right, sorted_right_index) ||
+         sorted_left[sorted_left_index] < sorted_right[sorted_right_index])
 
       sorted[i] = sorted_left[sorted_left_index]
       sorted_left_index += 1
