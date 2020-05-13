@@ -1,18 +1,21 @@
-# Write a method that takes a string and reverses the letters in place. ↴
-#
-# In general, an in-place ↴ algorithm will require swapping elements.
+def reverse!(str)
 
-def reverse!(string)
-  midway = string.length / 2
+  left_index  = 0
+  right_index = str.length - 1
 
-  midway.times do |i|
-    swap = string[-1-i]
-    string[-1-i] = string[i]
-    string[i] = swap
+  while left_index < right_index
+
+    # Swap characters.
+    str[left_index], str[right_index] = \
+      str[right_index], str[left_index]
+
+    # Move towards middle.
+    left_index  += 1
+    right_index -= 1
+
   end
-
-  string
 end
+
 
 # Tests
 
