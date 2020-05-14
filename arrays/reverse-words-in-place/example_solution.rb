@@ -15,6 +15,7 @@
 #
 #When writing your method, assume the message contains only letters and spaces, and all words are separated by one space.
 
+
 def reverse_characters!(str, index1, index2)
   left_index  = index1
   right_index = index2
@@ -37,14 +38,13 @@ def reverse_words!(message)
   reverse_characters!(message, 0, message.length - 1)
 
   last_word_start = 0
-  message.length.times do |i|
-    if message[i] == ' '
-      reverse_characters!(message, last_word_start, i - 1)
 
-      last_word_start = i + 1
-    elsif message[i + 1] == nil
-      reverse_characters!(message, last_word_start, i)
-    end
+  (0..message.length).each do |i|
+    next unless message[i] == ' ' || i == message.length
+
+    reverse_characters!(message, last_word_start, i - 1)
+
+    last_word_start = i + 1
   end
 end
 
