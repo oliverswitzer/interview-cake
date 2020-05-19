@@ -15,6 +15,7 @@
 #
 #When writing your method, assume the message contains only letters and spaces, and all words are separated by one space.
 
+# Takes O(n/2) which is just O(n)
 def reverse_characters!(str, index1, index2)
   left_index  = index1
   right_index = index2
@@ -33,12 +34,16 @@ def reverse_characters!(str, index1, index2)
   str
 end
 
+# O(1) space!
 def reverse_words!(message)
+  # O(n) call
   reverse_characters!(message, 0, message.length - 1)
 
   last_word_start = 0
   message.length.times do |i|
     if message[i] == ' '
+      # reverse_characters! is O(n), but only when you reach a space or nil, NOT for every character. This keeps
+      # this code from becoming O(n^2)
       reverse_characters!(message, last_word_start, i - 1)
 
       last_word_start = i + 1
