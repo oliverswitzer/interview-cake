@@ -12,57 +12,64 @@
 #   puts merge_arrays(my_array, alices_array)
 #   # Prints [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
 
-def merge_arrays(my_array, alices_array)
-  result = []
+# This takes O(n) time where n is the total of elements in array "a" and array "b"
+def merge_arrays(a, b)
+  res = []
 
-  (0...(my_array.length + alices_array.length)).each do |i|
-    if my_array.empty?
-      result << alices_array.shift
+  a_ind, b_ind = [0, 0]
+
+  until res.length == a.length + b.length
+    if a[a_ind].nil?
+      res << b[b_ind]
+      b_ind += 1
       next
-    elsif alices_array.empty?
-      result << my_array.shift
+    elsif b[b_ind].nil?
+      res << a[a_ind]
+      a_ind += 1
       next
     end
 
-    if my_array[0] < alices_array[0]
-      result << my_array.shift
+    if a[a_ind] < b[b_ind]
+      res << a[a_ind]
+      a_ind += 1
     else
-      result << alices_array.shift
+      res << b[b_ind]
+      b_ind += 1
     end
   end
 
-  result
+  res
 end
 
 # Tests
 
 def run_tests
-  desc = 'both arrays are empty'
+  desc = 'both arrays are empty [], []'
   actual = merge_arrays([], [])
   expected = []
   assert_equal(actual, expected, desc)
 
-  desc = 'first array is empty'
+  desc = 'first array is empty [], [1, 2, 3]'
   actual = merge_arrays([], [1, 2, 3])
   expected = [1, 2, 3]
   assert_equal(actual, expected, desc)
 
-  desc = 'second array is empty'
+  desc = 'second array is empty [5, 6, 7], []'
   actual = merge_arrays([5, 6, 7], [])
   expected = [5, 6, 7]
   assert_equal(actual, expected, desc)
 
-  desc = 'both arrays have some numbers'
+  desc = 'both arrays have some numbers [3, 4, 6, 10, 11, 15], [1, 5, 8, 12, 14, 19]'
   actual = merge_arrays([3, 4, 6, 10, 11, 15], [1, 5, 8, 12, 14, 19])
   expected = [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
   assert_equal(actual, expected, desc)
 
-  desc = 'both arrays have some numbers'
+  desc = 'both arrays have some numbers [2, 4, 6], [1, 3, 7]'
   actual = merge_arrays([2, 4, 6], [1, 3, 7])
   expected = [1, 2, 3, 4, 6, 7]
   assert_equal(actual, expected, desc)
 
-  desc = 'arrays are different lengths'
+  desc = 'arrays are different lengths [2, 4, 6, 8], [1, 7]'
   actual = merge_arrays([2, 4, 6, 8], [1, 7])
   expected = [1, 2, 4, 6, 7, 8]
   assert_equal(actual, expected, desc)
