@@ -12,33 +12,34 @@
 #   puts merge_arrays(my_array, alices_array)
 #   # Prints [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
 
-# This takes O(n) time where n is the total of elements in array "a" and array "b"
+# This takes O(n) time where n is the total of elements in array "a" and array "b". This, assuming the amortized cost
+# of appending to an array is O(1).
+#
+# To improve this I could initialize `result` with a fixed length. This would ensure dynamic array sizing wouldn't cause
+# time complexity to worsen.
+#
 def merge_arrays(a, b)
-  res = []
+  result = []
 
-  a_ind, b_ind = [0, 0]
+  a_index, b_index = [0, 0]
 
-  until res.length == a.length + b.length
-    if a[a_ind].nil?
-      res << b[b_ind]
-      b_ind += 1
-      next
-    elsif b[b_ind].nil?
-      res << a[a_ind]
-      a_ind += 1
-      next
-    end
+  until result.length == a.length + b.length
+    # When we should put an item from a into the result:
+    #
+    # If the current element in a is not nil AND EITHER:
+    # - The current element in b is nil OR
+    # - The current element in a is less than the current element in b
 
-    if a[a_ind] < b[b_ind]
-      res << a[a_ind]
-      a_ind += 1
+    if !a[a_index].nil? && (b[b_index].nil? || a[a_index] < b[b_index])
+      result << a[a_index]
+      a_index += 1
     else
-      res << b[b_ind]
-      b_ind += 1
+      result << b[b_index]
+      b_index += 1
     end
   end
 
-  res
+  result
 end
 
 # Tests
