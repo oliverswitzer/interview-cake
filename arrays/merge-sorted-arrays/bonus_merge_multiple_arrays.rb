@@ -1,3 +1,20 @@
+# In order to win the prize for most cookies sold, my friend Alice and I are going to merge our Girl Scout Cookies orders and enter as one unit.
+#
+#  Each order is represented by an "order id" (an integer).
+#
+#  We have our lists of orders sorted numerically already, in arrays. Write a method to merge our arrays of orders into one sorted array.
+#
+#  For example:
+#
+# my_array     = [3, 4, 6, 10, 11, 15]
+# alices_array = [1, 5, 8, 12, 14, 19]
+#
+# puts merge_arrays(my_array, alices_array)
+#  # Prints [1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19]
+#
+#
+# BONUS QUESTION BELOW (already solved the above problem)
+#
 # What if we wanted to merge several sorted arrays? Write a method that takes as an input an array of sorted arrays and outputs a single sorted array with all the items from each array.
 #
 # Do we absolutely have to allocate a new array to use for the merged output? Where else could we store our merged array? How would our method need to change?
@@ -52,7 +69,6 @@ def bonus_merge_multiple_arrays(*arrays)
 
     puts "FINISHED FIRST FIND LOOP WITH MIN VALUE: #{current_min[:value]}"
 
-
     # Add this value to the results array
     result << current_min[:value]
 
@@ -66,6 +82,7 @@ end
 def remaining_arrays_are_empty?(arrays, current_array_index:)
   remaining = arrays[0...current_array_index] + arrays[current_array_index + 1..-1]
 
+  # Assuming that checking the size of an array is O(1)
   remaining.all? { |arr| arr.empty? }
 end
 
