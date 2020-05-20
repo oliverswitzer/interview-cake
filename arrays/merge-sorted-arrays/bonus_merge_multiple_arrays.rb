@@ -5,12 +5,16 @@
 def bonus_merge_multiple_arrays(*arrays)
   puts "arrays: #{arrays.inspect}"
   result = []
-  total_array_length = arrays.reduce(0) { |acc, arr| acc + arr.length }
+  sum_of_all_arrays_length = arrays.reduce(0) { |acc, arr| acc + arr.length }
 
+  # Create an array to keep track of the current index for each array. We will need this to keep track of what values
+  # have already been looked at & merged into result so we don't have to do this again
+  #    NOTES: If I weren't trying to optimize for time, I'd probably just opt for using Enumerable#shift to take from
+  #           the front of the array. However, since this is an O(n) operation, I had to use this technique.
   current_indices = Array.new(arrays.length, 0)
 
   # Until we reach the length of all arrays' length combined
-  until result.length == total_array_length
+  until result.length == sum_of_all_arrays_length
 
     # Start with the value of the 0th element of the first array. This will be our min that we will compare values to
     # from other arrays.
@@ -23,6 +27,7 @@ def bonus_merge_multiple_arrays(*arrays)
 
     # For each of the passed in arrays
     (0...arrays.length).each do |arr_index|
+      # Let's get the current index for that array
       current_index_of_array = current_indices[arr_index]
 
       # Case: Add the next element from this array to the result
@@ -46,9 +51,13 @@ def bonus_merge_multiple_arrays(*arrays)
     end
 
     puts "FINISHED FIRST FIND LOOP WITH MIN VALUE: #{current_min[:value]}"
-    current_indices[current_min[:array_index]] += 1
+
+
+    # Add this value to the results array
     result << current_min[:value]
-    puts "RESULT: #{result.inspect}"
+
+    # Bump the current index for that array by 1, since we took a value from this array.
+    current_indices[current_min[:array_index]] += 1
   end
 
   result
