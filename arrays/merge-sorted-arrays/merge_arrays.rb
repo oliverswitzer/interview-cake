@@ -15,37 +15,42 @@
 def merge_arrays(my_array, alices_array)
   result = []
 
-  (0...my_array.length).each do |i|
-    if my_array[i] < alices_array[i]
-      result << my_array[i]
-      result << alices_array[i]
+  (0...(my_array.length + alices_array.length)).each do |i|
+    if my_array.empty?
+      result << alices_array.shift
+      next
+    elsif alices_array.empty?
+      result << my_array.shift
+      next
+    end
+
+    if my_array[0] < alices_array[0]
+      result << my_array.shift
     else
-      result << alices_array[i]
-      result << my_array[i]
+      result << alices_array.shift
     end
   end
 
   result
 end
 
-
 # Tests
 
 def run_tests
-  #desc = 'both arrays are empty'
-  #actual = merge_arrays([], [])
-  #expected = []
-  #assert_equal(actual, expected, desc)
-  #
-  #desc = 'first array is empty'
-  #actual = merge_arrays([], [1, 2, 3])
-  #expected = [1, 2, 3]
-  #assert_equal(actual, expected, desc)
-  #
-  #desc = 'second array is empty'
-  #actual = merge_arrays([5, 6, 7], [])
-  #expected = [5, 6, 7]
-  #assert_equal(actual, expected, desc)
+  desc = 'both arrays are empty'
+  actual = merge_arrays([], [])
+  expected = []
+  assert_equal(actual, expected, desc)
+
+  desc = 'first array is empty'
+  actual = merge_arrays([], [1, 2, 3])
+  expected = [1, 2, 3]
+  assert_equal(actual, expected, desc)
+
+  desc = 'second array is empty'
+  actual = merge_arrays([5, 6, 7], [])
+  expected = [5, 6, 7]
+  assert_equal(actual, expected, desc)
 
   desc = 'both arrays have some numbers'
   actual = merge_arrays([3, 4, 6, 10, 11, 15], [1, 5, 8, 12, 14, 19])
@@ -57,10 +62,10 @@ def run_tests
   expected = [1, 2, 3, 4, 6, 7]
   assert_equal(actual, expected, desc)
 
-  #desc = 'arrays are different lengths'
-  #actual = merge_arrays([2, 4, 6, 8], [1, 7])
-  #expected = [1, 2, 4, 6, 7, 8]
-  #assert_equal(actual, expected, desc)
+  desc = 'arrays are different lengths'
+  actual = merge_arrays([2, 4, 6, 8], [1, 7])
+  expected = [1, 2, 4, 6, 7, 8]
+  assert_equal(actual, expected, desc)
 end
 
 def assert_equal(a, b, desc)
