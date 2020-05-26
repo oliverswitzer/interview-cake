@@ -28,33 +28,16 @@
 #
 # would be first-come, first-served.
 
-
+#-------
+# BONUS:
+#
+# This assumes each customer order in served_orders is unique. How can we adapt this to handle arrays of customer orders with potential repeats?
+# Our implementation returns true when all the items in dine_in_orders and take_out_orders are first-come first-served in served_orders and false otherwise. That said, it'd be reasonable to raise an exception if some orders that went into the kitchen were never served, or orders were served but not paid for at either register. How could we check for those cases?
+# Our solution iterates through the customer orders from front to back. Would our algorithm work if we iterated from the back towards the front? Which approach is cleaner?
 # This runs in O(n) time, since we just iterate over served_orders once
+#
 def first_come_first_served?(take_out_orders, dine_in_orders, served_orders)
-  # Return false if there are more total take out/dine in orders than served orders (this means some orders were never
-  # processed)
 
-  return false unless (take_out_orders.length + dine_in_orders.length) == served_orders.length
-
-  current_takeout_index = 0
-  current_dine_in_index = 0
-
-  result = true
-
-  # O(n) added here
-  (0...served_orders.length).each do |i|
-    current_order = served_orders[i]
-
-    if current_order == take_out_orders[current_takeout_index]
-      current_takeout_index += 1
-    elsif current_order == dine_in_orders[current_dine_in_index]
-      current_dine_in_index += 1
-    else
-      result = false
-    end
-  end
-
-  result
 end
 
 
