@@ -28,14 +28,21 @@
 #
 # would be first-come, first-served.
 
-
 def first_come_first_served?(take_out_orders, dine_in_orders, served_orders)
+  # Return false if there are more take out or dine in orders left after going through all the served orders
   return false if served_orders.empty? && (take_out_orders.size > 0 || dine_in_orders.size > 0)
+
+  # Base case: if we've processed all served orders, we're done!
   return true if served_orders.empty?
 
   current_order = served_orders[0]
 
   if current_order == take_out_orders[0]
+    # Beware: slicing (i.e. take_out_orders[1..1]) takes O(n)! Because we already have N frames on the call stack,
+    # this makes the total complexity for this algo take O(n^2) time now...
+    # Eg. if n is the take_out_orders size, it will result in
+    #
+    # O(n) = n + (n - 1) + (n - 2) + (n - 3) + ... = n^2/2 (the common series -- think: triangle divided by two)
     first_come_first_served?(take_out_orders[1..-1], dine_in_orders, served_orders[1..-1])
   elsif current_order == dine_in_orders[0]
     first_come_first_served?(take_out_orders, dine_in_orders[1..-1], served_orders[1..-1])
