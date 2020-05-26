@@ -35,14 +35,12 @@ def first_come_first_served?(take_out_orders, dine_in_orders, served_orders)
 
   current_order = served_orders[0]
 
-  if current_order != take_out_orders[0]
-    if current_order != dine_in_orders[0]
-      return false
-    else
-      first_come_first_served?(take_out_orders, dine_in_orders[1..-1], served_orders[1..-1])
-    end
-  else
+  if current_order == take_out_orders[0]
     first_come_first_served?(take_out_orders[1..-1], dine_in_orders, served_orders[1..-1])
+  elsif current_order == dine_in_orders[0]
+    first_come_first_served?(take_out_orders, dine_in_orders[1..-1], served_orders[1..-1])
+  else
+    false
   end
 end
 

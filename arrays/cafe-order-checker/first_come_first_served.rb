@@ -40,14 +40,12 @@ def first_come_first_served?(take_out_orders, dine_in_orders, served_orders)
   (0...served_orders.length).each do |i|
     current_order = served_orders[i]
 
-    if current_order != take_out_orders[current_takeout_index]
-      if current_order != dine_in_orders[current_dine_in_index]
-        result = false
-      else
-        current_dine_in_index += 1
-      end
-    else
+    if current_order == take_out_orders[current_takeout_index]
       current_takeout_index += 1
+    elsif current_order == dine_in_orders[current_dine_in_index]
+      current_dine_in_index += 1
+    else
+      result = false
     end
   end
 
