@@ -11,7 +11,13 @@
 # Optimize for runtime over memory
 
 def can_two_movies_fill_flight?(movie_lengths, flight_length)
-
+  puts movie_lengths.inspect
+  movie_lengths.each_with_index do |len1, i|
+    movie_lengths[i+1..-1].each do |len2|
+      puts "comparing len1: #{len1} and len2: #{len2}"
+      return true if len1 + len2 == flight_length
+    end
+  end
 
   false
 end
