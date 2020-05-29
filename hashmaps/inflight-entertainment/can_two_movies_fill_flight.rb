@@ -9,15 +9,18 @@
 # Assume your users will watch exactly two movies
 # Don't make your users watch the same movie twice
 # Optimize for runtime over memory
+#
+ require 'set'
 
-# At min would be O(n^2), might be higher since we are using array slicing on line 17
 def can_two_movies_fill_flight?(movie_lengths, flight_length)
-  puts movie_lengths.inspect
-  movie_lengths.each_with_index do |len1, i|
-    (i+1..movie_lengths.length-1).each do |n|
-      puts "comparing len1: #{len1} and len2: #{movie_lengths[n]}"
-      return true if len1 + movie_lengths[n] == flight_length
-    end
+  seen_movie_lengths = Set.new
+
+  movie_lengths.each_with_index do |current_length, i|
+    second_movie_length = flight_length - current_length
+
+    return true if seen_movie_lengths.include? second_movie_length
+
+    seen_movie_lengths.add(current_length)
   end
 
   false
