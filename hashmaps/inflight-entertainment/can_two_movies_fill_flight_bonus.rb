@@ -15,7 +15,7 @@ require 'set'
 def can_two_movies_fill_flight?(movie_lengths, flight_length)
   seen_movie_lengths = Set.new
 
-  movie_lengths.each do |current_length|
+  movie_lengths.each_with_index do |current_length, i|
     second_movie_length = flight_length - current_length
 
     return true if seen_movie_lengths.include? second_movie_length
