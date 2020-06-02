@@ -10,15 +10,23 @@
 # Don't make your users watch the same movie twice
 # Optimize for runtime over memory
 #
+# BONUS
+#
+# What if we wanted to fill the flight length as nicely as possible with any number of movies (not just 2)?
+
 require 'set'
 
-def can_two_movies_fill_flight?(movie_lengths, flight_length)
+def can_two_movies_fill_flight?(movie_lengths, flight_length, error_delta: 1)
   seen_movie_lengths = Set.new
 
-  movie_lengths.each_with_index do |current_length, i|
+  movie_lengths.each do |current_length|
     second_movie_length = flight_length - current_length
 
-    return true if seen_movie_lengths.include? second_movie_length
+    return true if seen_movie_lengths.any? do |length|
+      acceptable_range = (second_movie_length - error_delta..second_movie_length + error_delta)
+
+      acceptable_range.include? length
+    end
 
     seen_movie_lengths.add(current_length)
   end
@@ -30,33 +38,21 @@ end
 # Tests
 
 def run_tests
-  desc = 'short flight'
-  result = can_two_movies_fill_flight?([2, 4], 1)
-  assert_false(result, desc)
-
-  desc = 'long flight'
-  result = can_two_movies_fill_flight?([2, 4], 6)
-  assert_true(result, desc)
-
-  desc = 'one movie half flight length'
-  result = can_two_movies_fill_flight?([3, 8], 6)
-  assert_false(result, desc)
-
-  desc = 'two movies half flight length'
-  result = can_two_movies_fill_flight?([3, 8, 3], 6)
-  assert_true(result, desc)
-
-  desc = 'lots of possible pairs'
-  result = can_two_movies_fill_flight?([1, 2, 3, 4, 5, 6], 7)
-  assert_true(result, desc)
-
-  desc = 'not using first movie'
-  result = can_two_movies_fill_flight?([4, 3, 2], 5)
-  assert_true(result, desc)
-
   desc = 'only one movie'
   result = can_two_movies_fill_flight?([6], 6)
   assert_false(result, desc)
+
+  desc = 'movie total is 1 hour less of flight length'
+  result = can_two_movies_fill_flight?([5, 1], 7)
+  assert_true(result, desc)
+
+  desc = 'movie total is 1 hour greater of flight length'
+  result = can_two_movies_fill_flight?([5, 4], 8)
+  assert_true(result, desc)
+
+  desc = 'with error_delta of 2 hours'
+  result = can_two_movies_fill_flight?([5, 5], 8, error_delta: 2)
+  assert_true(result, desc)
 
   desc = 'no movies'
   result = can_two_movies_fill_flight?([], 2)
