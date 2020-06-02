@@ -16,22 +16,8 @@
 
 require 'set'
 
-def can_two_movies_fill_flight?(movie_lengths, flight_length, error_delta: 1)
-  seen_movie_lengths = Set.new
+def can_multiple_movies_fill_flight?(movie_lengths, flight_length)
 
-  movie_lengths.each do |current_length|
-    second_movie_length = flight_length - current_length
-
-    return true if seen_movie_lengths.any? do |length|
-      acceptable_range = (second_movie_length - error_delta..second_movie_length + error_delta)
-
-      acceptable_range.include? length
-    end
-
-    seen_movie_lengths.add(current_length)
-  end
-
-  false
 end
 
 
@@ -39,24 +25,16 @@ end
 
 def run_tests
   desc = 'only one movie'
-  result = can_two_movies_fill_flight?([6], 6)
+  result = can_multiple_movies_fill_flight?([6], 6)
   assert_false(result, desc)
-
-  desc = 'movie total is 1 hour less of flight length'
-  result = can_two_movies_fill_flight?([5, 1], 7)
-  assert_true(result, desc)
-
-  desc = 'movie total is 1 hour greater of flight length'
-  result = can_two_movies_fill_flight?([5, 4], 8)
-  assert_true(result, desc)
-
-  desc = 'with error_delta of 2 hours'
-  result = can_two_movies_fill_flight?([5, 5], 8, error_delta: 2)
-  assert_true(result, desc)
 
   desc = 'no movies'
-  result = can_two_movies_fill_flight?([], 2)
+  result = can_multiple_movies_fill_flight?([], 2)
   assert_false(result, desc)
+
+  desc = 'multiple movies'
+  result = can_multiple_movies_fill_flight?([5, 1, 3, 2], 9)
+  assert_true(result, desc)
 end
 
 def assert_true(value, desc)
