@@ -1,16 +1,18 @@
 def has_palindrome_permutation?(the_string)
+  char_occurences = {}
 
-  # Check if any permutation of the input is a palindrome.
+  the_string.each_char do |char|
+    if char_occurences[char]
+      char_occurences[char] += 1
+    else
+      char_occurences[char] = 1
+    end
+  end
 
+  return true if char_occurences.values.all? { |v| v == 2 }
 
   false
 end
-
-
-
-
-
-
 
 
 
