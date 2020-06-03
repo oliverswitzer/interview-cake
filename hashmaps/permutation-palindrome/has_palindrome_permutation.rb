@@ -13,19 +13,30 @@
 # If you had this thought, read the question again carefully. We're asking if any permutation of the string is a palindrome. Spend some extra time ensuring you fully understand the question before starting. Jumping in with a flawed understanding of the problem doesn't look good in an interview.
 
 def has_palindrome_permutation?(the_string)
-  char_occurences = {}
+  char_occurrences = {}
 
   the_string.each_char do |char|
-    if char_occurences[char]
-      char_occurences[char] += 1
+    if char_occurrences[char]
+      char_occurrences[char] += 1
     else
-      char_occurences[char] = 1
+      char_occurrences[char] = 1
     end
   end
 
-  return true if char_occurences.values.all? { |v| v == 2 }
+  found_odd_character = nil
+  char_occurrences.values.each do |value|
+    if value == 1
+      if found_odd_character
+        return false
+      else
+        found_odd_character = value
+      end
+    elsif value > 2
+      return false
+    end
+  end
 
-  false
+  true
 end
 
 
