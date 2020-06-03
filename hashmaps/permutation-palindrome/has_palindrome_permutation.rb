@@ -23,14 +23,16 @@ def has_palindrome_permutation?(the_string)
     end
   end
 
+  puts char_occurrences.inspect
+
   previously_found_odd_char = nil
   char_occurrences.values.each do |value|
     if value == 1 && previously_found_odd_char
       return false
-    elsif value > 2
-      return false
-    else
+    elsif value == 1 && previously_found_odd_char.nil?
       previously_found_odd_char = value
+    elsif value % 2 != 0
+      return false
     end
   end
 
@@ -56,6 +58,10 @@ def run_tests
   desc = 'no permutation with even number of chars'
   result = has_palindrome_permutation?('aabbcd')
   assert_false(result, desc)
+
+  desc = 'no permutation with even number of chars: aabbcdbbaa'
+  result = has_palindrome_permutation?('aaaabbbbccdd')
+  assert_true(result, desc)
 
   desc = 'empty string'
   result = has_palindrome_permutation?('')
