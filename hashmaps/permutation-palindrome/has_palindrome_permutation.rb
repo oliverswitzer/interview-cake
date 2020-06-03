@@ -12,11 +12,19 @@
 #
 # If you had this thought, read the question again carefully. We're asking if any permutation of the string is a palindrome. Spend some extra time ensuring you fully understand the question before starting. Jumping in with a flawed understanding of the problem doesn't look good in an interview.
 
+# Using a set means we have O(n) space complexity, where n is the number of unique
+# characters (in ASCII this is 128, in UNICODE this is 110,000). Since this is a constant number,
+# we can just call this O(1) (constant)
+#
+# In terms of time complexity, this runs in O(n), where n is the number of chars in the string
+
 require 'set'
+
 def has_palindrome_permutation?(the_string)
   odd_count_chars = Set.new
 
   the_string.each_char do |char|
+    # if this characters count has been considered odd in the past, now its count is even, so delete it from the odd count hash
     if odd_count_chars.include? char
       odd_count_chars.delete(char)
     else
@@ -24,6 +32,8 @@ def has_palindrome_permutation?(the_string)
     end
   end
 
+  # If there is 1 character with an odd count in the string, then that's ok. Otherwise, this
+  # string is not a palindrome
   return true if odd_count_chars.count <= 1
 
   false
