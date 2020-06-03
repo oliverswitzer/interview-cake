@@ -12,29 +12,21 @@
 #
 # If you had this thought, read the question again carefully. We're asking if any permutation of the string is a palindrome. Spend some extra time ensuring you fully understand the question before starting. Jumping in with a flawed understanding of the problem doesn't look good in an interview.
 
+require 'set'
 def has_palindrome_permutation?(the_string)
-  char_occurrences = {}
+  odd_count_chars = Set.new
 
   the_string.each_char do |char|
-    if char_occurrences[char]
-      char_occurrences[char] += 1
+    if odd_count_chars.include? char
+      odd_count_chars.delete(char)
     else
-      char_occurrences[char] = 1
+      odd_count_chars.add(char)
     end
   end
 
-  previously_found_odd_char = nil
-  char_occurrences.values.each do |value|
-    if value == 1
-      return false if previously_found_odd_char
+  return true if odd_count_chars.count <= 1
 
-      previously_found_odd_char = value
-    elsif value % 2 != 0
-      return false
-    end
-  end
-
-  true
+  false
 end
 
 
