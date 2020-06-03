@@ -23,31 +23,19 @@ def has_palindrome_permutation?(the_string)
     end
   end
 
-  found_odd_character = nil
+  previously_found_odd_char = nil
   char_occurrences.values.each do |value|
-    if value == 1
-      if found_odd_character
-        return false
-      else
-        found_odd_character = value
-      end
+    if value == 1 && previously_found_odd_char
+      return false
     elsif value > 2
       return false
+    else
+      previously_found_odd_char = value
     end
   end
 
   true
 end
-
-
-
-
-
-
-
-
-
-
 
 
 # Tests
