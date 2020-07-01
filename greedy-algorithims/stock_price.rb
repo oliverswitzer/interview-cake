@@ -28,7 +28,9 @@ def get_max_profit(stock_prices)
   min_price = stock_prices[0]
   current_profit = stock_prices[1] - min_price
 
-  stock_prices[1..-1].each do |current_price|
+  stock_prices.each_with_index do |current_price, i|
+    next if i == 0
+
     if current_price < min_price
       min_price = current_price
     else
