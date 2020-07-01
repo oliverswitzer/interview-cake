@@ -3,16 +3,45 @@
 # The input array_of_ints will always have at least three integers.
 
 def highest_product_of_3(array_of_ints)
+  raise Error if array_of_ints.length < 3
 
-  # Calculate the highest product of three numbers.
+  max_int = array_of_ints.first(2).max
+  min_int =  array_of_ints.first(2).min
 
+  highest_product_of_two = lowest_product_of_two = array_of_ints[0] * array_of_ints[1]
 
-  0
+  highest_product_of_three = [
+    highest_product_of_two * array_of_ints[2],
+    lowest_product_of_two * array_of_ints[2]
+  ].max
+
+  array_of_ints.each_with_index do |current_int, i|
+    next if i < 2
+
+    highest_product_of_three = [
+      highest_product_of_three,
+      current_int * highest_product_of_two,
+      current_int * lowest_product_of_two
+    ].max
+
+    highest_product_of_two = [
+      highest_product_of_two,
+      current_int * max_int,
+      current_int * min_int
+    ].max
+
+    lowest_product_of_two = [
+      lowest_product_of_two,
+      current_int * min_int,
+      current_int * max_int
+    ].min
+
+    max_int = [current_int, max_int].max
+    min_int = [current_int, min_int].min
+  end
+
+  highest_product_of_three
 end
-
-
-
-
 
 
 
