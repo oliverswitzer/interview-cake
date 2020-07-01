@@ -1,3 +1,7 @@
+# Given an array of integers, find the highest product you can get from three of the integers.
+#
+# The input array_of_ints will always have at least three integers.
+
 def highest_product_of_3(array_of_ints)
 
   # Calculate the highest product of three numbers.
