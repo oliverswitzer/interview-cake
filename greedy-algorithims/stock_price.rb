@@ -21,20 +21,21 @@
 # No "shorting"—you need to buy before you can sell. Also, you can't buy and sell in the same time step—at least 1 minute has to pass.
 
 # Current implementation complexity:
-# O(n^2) time:
-#  * Triangle series complexity i.e n * { n - 1 + n - 2, ...} / 2. Thus this algo takes O(n^2) time.
-# O(1) space
-
+#
+# O(n) time
+# O(n) space (We slice the array -- this takes up O(n - 1) space since we initialize a new array)
 def get_max_profit(stock_prices)
+  min_price = stock_prices[0]
+  current_profit = stock_prices[1] - min_price
 
-  current_profit = stock_prices[2] - stock_prices[1]
+  stock_prices[1..-1].each do |current_price|
+    if current_price < min_price
+      min_price = current_price
+    else
+      potential_profit = current_price - min_price
 
-  stock_prices.each_with_index do |price_1, i|
-    stock_prices[i+1..-1].each do |price_2|
-      purchase_delta = price_2 - price_1
-
-      if purchase_delta > current_profit
-        current_profit = purchase_delta
+      if potential_profit > current_profit
+        current_profit = potential_profit
       end
     end
   end
