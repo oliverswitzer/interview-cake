@@ -3,17 +3,12 @@ def get_random(floor, ceiling)
 end
 
 def shuffle(array)
-  already_shuffled = []
+  array.each_with_index do |current, i|
+    swap_index = get_random(0, array.length - 1)
+    swap_member = array[swap_index]
 
-  array = array.each_with_index.map do |int, i|
-    shuffled_int = array[get_random(0, array.length - 1)]
-
-    while already_shuffled.include? shuffled_int
-      shuffled_int = array[get_random(0, array.length - 1)]
-    end
-
-    already_shuffled << shuffled_int
-    shuffled_int
+    array[swap_index] = current
+    array[i] = swap_member
   end
 
   array
