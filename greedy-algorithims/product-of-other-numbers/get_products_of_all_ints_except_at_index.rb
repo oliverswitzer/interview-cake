@@ -24,15 +24,6 @@ def get_products_of_all_ints_except_at_index(int_array)
   end
 end
 
-#[1, 1, 2 * 1]
-
-#[1, 8 * 1, 8 * 2 * 1, 8 * 2 * 4 * 1]
-
-
-
-
-
-
 
 # Tests
 
