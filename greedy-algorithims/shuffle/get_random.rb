@@ -3,7 +3,7 @@ def get_random(floor, ceiling)
 end
 
 def shuffle(array)
-  (0...array.length).each do |i|
+  (0...array.length - 1).each do |i|
     swap_index = get_random(i, array.length - 1)
     element_to_swap = array[swap_index]
 
