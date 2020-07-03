@@ -3,12 +3,12 @@ def get_random(floor, ceiling)
 end
 
 def shuffle(array)
-  array.each_with_index do |current, i|
-    swap_index = get_random(0, array.length - 1)
-    swap_member = array[swap_index]
+  (0...array.length).each do |i|
+    swap_index = get_random(i, array.length - 1)
+    element_to_swap = array[swap_index]
 
-    array[swap_index] = current
-    array[i] = swap_member
+    array[swap_index] = array[i]
+    array[i] = element_to_swap
   end
 
   array
