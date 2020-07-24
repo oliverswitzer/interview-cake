@@ -10,49 +10,38 @@ def balanced?(tree_root)
   min_level = nil
   current_children = []
 
-  # p "current queue: #{queue.map(&:value)}"
-  # p "current level: #{current_level}"
-
   until queue.empty?
     node = queue.pop
-    # p "getting node... node is #{node.value}"
 
+    # If this is a leaf node AND we haven't already set min level, we can safely say that
+    # this is our "minimum path"/"minimum depth". This is because BFS will always get you
+    # to the shortest path first. But we don't want to stop here, let's allow our BFS to carry
+    # on until it winds up with the maximum path (current_path at the end of this loop)
     if node.left.nil? && node.right.nil? && min_level.nil?
-      # p "marking a min level here"
       min_level = current_level
     end
 
-    # p "adding left node to c_children: #{node&.left&.value}"
-    # p "adding right node to c_children: #{node&.right&.value}"
     current_children.unshift(node.left) unless node.left.nil?
     current_children.unshift(node.right) unless node.right.nil?
-    # p "c_children after additions #{current_children.map(&:value)}"
 
     # Once the queue is empty, we've reached a new level
     if queue.empty?
       # If there are no children, don't worry about incrementing the level, since there is not another level to increment for
       unless current_children.empty?
-        # p "Bumping level since children are present"
-        # p "current_level + 1 = #{current_level + 1}"
+        # Bumping level since children are present
         current_level += 1
 
         # Lets add the children we found for this level into the queue for processing...
-        # p "Adding c children (#{current_children.map(&:value)}) to queue..."
-        queue.unshift(*current_children)
+        queue = current_children
         current_children = []
       end
     end
   end
 
-  # p "max level: #{current_level}"
-  # p "min level: #{min_level}"
+  # If the diff of the max level (or what we end up with at the end of the algo) and
+  # the min level is less than or eq to 1, then our tree is super balanced!
   current_level - min_level <= 1
 end
-
-#        1
-#    5       9
-#          8   5
-#        7
 
 
 
