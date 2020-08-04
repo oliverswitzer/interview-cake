@@ -1,46 +1,18 @@
+# require 'pry'
 def binary_search_tree?(root)
-  nodes = [[root, []]]
+  nodes = [[root, -Float::INFINITY, Float::INFINITY]]
 
   until nodes.empty?
-    node, ancestors = nodes.pop
-    p "current: #{node.value}"
-    p "node left: #{node.left.value}" if node.left
-    p "node right: #{node.right.value}" if node.right
-    p "ancestors: #{ancestors.map(&:value)}"
+    node, lower_bound, upper_bound = nodes.pop
 
-    return false if node.left &&
-        (node.left.value > node.value || ancestors.any? { |n| n.value < node.left.value })
-    return false if node.right &&
-        (node.right.value < node.value || ancestors.any? { |n| n.value > node.right.value })
+    return false if node.value <= lower_bound || node.value >= upper_bound
 
-    # p "left: #{node.left.value}" if node.left
-    # p "right: #{node.right.value}" if node.right
-
-    # return false if current node is left and its ANCESTOR is less than it
-    # return false if current node is right and its ANCESTOR is greater than it
-    # ancestors
-    nodes.unshift [node.left, ancestors + [node]] if !!node.left
-    nodes.unshift [node.right, ancestors + [node]] if !!node.right
+    nodes.unshift [node.left, lower_bound, node.value] if node.left
+    nodes.unshift [node.right, node.value, upper_bound] if node.right
   end
 
   true
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Tests
@@ -52,7 +24,7 @@ class BinaryTreeNode
 
   def initialize(value)
     @value = value
-    @left  = nil
+    @left = nil
     @right = nil
   end
 
@@ -66,7 +38,9 @@ class BinaryTreeNode
 end
 
 def run_tests
-  #
+  #        50
+  #    30     70
+  #  10  40  60  80
   desc = 'valid full tree'
   tree = BinaryTreeNode.new(50)
   left = tree.insert_left(30)
@@ -78,42 +52,42 @@ def run_tests
   result = binary_search_tree?(tree)
   assert_true(result, desc)
 
-  # desc = 'both gitsubtrees valid'
-  # tree = BinaryTreeNode.new(50)
-  # left = tree.insert_left(30)
-  # right = tree.insert_right(80)
-  # left.insert_left(20)
-  # left.insert_right(60)
-  # right.insert_left(70)
-  # right.insert_right(90)
-  # result = binary_search_tree?(tree)
-  # assert_false(result, desc)
-  #
-  # desc = 'descending linked list'
-  # tree = BinaryTreeNode.new(50)
-  # left = tree.insert_left(40)
-  # left_left = left.insert_left(30)
-  # left_left_left = left_left.insert_left(20)
-  # left_left_left.insert_left(10)
-  # result = binary_search_tree?(tree)
-  # assert_true(result, desc)
+  desc = 'both gitsubtrees valid'
+  tree = BinaryTreeNode.new(50)
+  left = tree.insert_left(30)
+  right = tree.insert_right(80)
+  left.insert_left(20)
+  left.insert_right(60)
+  right.insert_left(70)
+  right.insert_right(90)
+  result = binary_search_tree?(tree)
+  assert_false(result, desc)
 
-  # #      50
-  # #          70
-  # #             60
-  # #                 80
-  # desc = 'out of order linked list'
-  # tree = BinaryTreeNode.new(50)
-  # right = tree.insert_right(70)
-  # right_right = right.insert_right(60)
-  # right_right.insert_right(80)
-  # result = binary_search_tree?(tree)
-  # assert_false(result, desc)
-  #
-  # desc = 'one node tree'
-  # tree = BinaryTreeNode.new(50)
-  # result = binary_search_tree?(tree)
-  # assert_true(result, desc)
+  desc = 'descending linked list'
+  tree = BinaryTreeNode.new(50)
+  left = tree.insert_left(40)
+  left_left = left.insert_left(30)
+  left_left_left = left_left.insert_left(20)
+  left_left_left.insert_left(10)
+  result = binary_search_tree?(tree)
+  assert_true(result, desc)
+
+  #      50
+  #          70
+  #             60
+  #                 80
+  desc = 'out of order linked list'
+  tree = BinaryTreeNode.new(50)
+  right = tree.insert_right(70)
+  right_right = right.insert_right(60)
+  right_right.insert_right(80)
+  result = binary_search_tree?(tree)
+  assert_false(result, desc)
+
+  desc = 'one node tree'
+  tree = BinaryTreeNode.new(50)
+  result = binary_search_tree?(tree)
+  assert_true(result, desc)
 end
 
 def assert_true(value, desc)
