@@ -13,7 +13,7 @@ def binary_search_tree?(root)
 
   true
 end
-
+  
 
 # Tests
 
